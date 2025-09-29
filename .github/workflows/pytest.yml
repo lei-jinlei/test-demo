@@ -1,4 +1,4 @@
-name: Pytest CI with Allure Report
+name: Pytest CI with HTML Report
 
 on:
   push:
@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4   # 这里最好也升级到 v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: "3.10"
 
@@ -24,11 +24,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run pytest with Allure
-      run: pytest --alluredir=allure-results
+    - name: Run pytest with HTML report
+      run: pytest --html=report.html --self-contained-html
 
-    - name: Upload Allure results
-      uses: actions/upload-artifact@v3
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v4   # ⚡ 修复这里
       with:
-        name: allure-results
-        path: allure-results
+        name: pytest-html-report
+        path: report.html
